@@ -12,7 +12,14 @@ class HuffmanEncoding:
             encoded_text (str, optional): The encoded text to be decoded.
             root (Node, optional): The root node of the Huffman tree for decoding.
         """
-        pass
+        if src is not None:
+            self.src = src
+            self.tree_root = self._build_tree()
+            self.encoded_text = self._encode()
+            self.dictionary = self._build_dictionary()
+        else:
+            pass
+
     
     class Node:
         def __init__(self, freq, char=None, left=None, right=None):
@@ -23,6 +30,31 @@ class HuffmanEncoding:
         
         def is_leaf(self):
             return self.char is not None
+        
+    def _build_tree(self):
+        frequency = {}
+        for i in self.src:
+            frequency[i] = frequency.get(i,0) + 1
+
+        pq = MinPQ()
+        for letter in frequency.keys():
+            node = self.Node(frequency[letter], char = letter)
+            pq.insert(node)
+
+        while pq.size() > 1:
+            left = pq[0]
+            right = pq[1]
+            merged = self.Node(frequency = left.frequency + right.frequency)
+            pq.push(merged)
+        self.tree_root = pq[0]
+        return self.tree_root
+
+    def _encode(self):
+        encoding = []
+        for char in self.src:
+            encoding.append(self.dictionary[char])
+        return ''.join(encoding)
+       
 
     def encoding(self):
         """
@@ -30,15 +62,31 @@ class HuffmanEncoding:
         Returns:
             str: The encoded text as a string of 0s and 1s.
         """
-        pass
+        return self.encoded_text
+
+
+
+
+
+        
+
+
 
     def source_text(self):
         """
         Returns the original source text.
         Returns:
             str: The original source text.
+              """
         """
-        pass
+           '"""""''''
+           """"""""""
+              """
+              """
+              '''
+        for char in self.encoded_text:
+           pass
+
 
     def root(self):
         """
@@ -70,3 +118,5 @@ class HuffmanEncoding:
         dictionary.update(self._build_dictionary(node.left, prefix + '0'))
         dictionary.update(self._build_dictionary(node.right, prefix + '1'))
         return dictionary
+
+src = 'apple'
