@@ -16,7 +16,7 @@ class HuffmanEncoding:
             self.src = src
             self.tree_root = self._build_tree()
             self.encoded_text = self._encode()
-            self.dictionary = self._build_dictionary
+            self.dictionary = self._build_dictionary()
         else:
             pass
 
@@ -50,18 +50,12 @@ class HuffmanEncoding:
         return self.tree_root
 
     def _encode(self):
-        # im sure that this is not the code, but I think this is the general idea of what this question is maybe asking.
-        word = {}
-        for node in pq:
-            if node[node.char==None]:
-                word[node] == 0
-            else:
-                word[node] == 1
+        encoding = []
+        for char in self.src:
+            encoding.append(self.dictionary[char])
+        return ''.join(encoding)
+       
 
-
-
-
-    
     def encoding(self):
         """
         Returns the encoded text.
@@ -90,7 +84,9 @@ class HuffmanEncoding:
               """
               """
               '''
-        pass
+        for char in self.encoded_text:
+           pass
+
 
     def root(self):
         """
@@ -123,4 +119,4 @@ class HuffmanEncoding:
         dictionary.update(self._build_dictionary(node.right, prefix + '1'))
         return dictionary
 
-    
+src = 'apple'
