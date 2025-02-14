@@ -52,8 +52,8 @@ class HuffmanEncoding:
     def _encode(self):
         # im sure that this is not the code, but I think this is the general idea of what this question is maybe asking.
         word = {}
-        for node in pq[]:
-            if node[char==None]:
+        for node in pq:
+            if node[node.char==None]:
                 word[node] == 0
             else:
                 word[node] == 1
