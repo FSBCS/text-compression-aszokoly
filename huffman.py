@@ -34,20 +34,23 @@ class HuffmanEncoding:
     def _build_tree(self):
         frequency = {}
         for i in self.src:
-            frequency[i] = frequency.get(i,0) + 1
+            if i not in frequency:
+                frequency[i] = 1
+            else:
+                frequency[i] += 1
 
         pq = MinPQ()
         for letter in frequency.keys():
             node = self.Node(frequency[letter], char = letter)
-            pq.insert(node)
+            pq.insert(node.freq, node)
 
         while pq.size() > 1:
-            left = pq[0]
-            right = pq[1]
-            merged = self.Node(frequency = left.frequency + right.frequency)
-            pq.push(merged)
-        self.tree_root = pq[0]
-        return self.tree_root
+            left = pq.del_min()
+            right = pq.del_min()
+            merged = self.Node(frequency = left.frequency + right.frequency, left = left, right=right)
+            pq.insert(merged.frequency, merged)
+        self.root = pq.del_min()
+        return self.root
 
     def _encode(self):
         encoding = []
@@ -84,8 +87,17 @@ class HuffmanEncoding:
               """
               """
               '''
-        for char in self.encoded_text:
-           pass
+        decoded_text = ""
+        current_node = self.root
+        for i in self.encoded_text:
+            if i == "0":
+                current_node = current_node.left
+            else:
+                current_node = current_node.right
+            if current_node.is_leaf():
+                decoded_text += current_node.char
+                current_node = self.root
+        return decoded_text
 
 
     def root(self):
