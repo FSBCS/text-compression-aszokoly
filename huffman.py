@@ -1,5 +1,5 @@
 from friendsbalt.acs import MinPQ
-
+    
 
 class HuffmanEncoding:
     def __init__(self, src=None, encoded_text=None, root=None):
@@ -18,7 +18,9 @@ class HuffmanEncoding:
             self.encoded_text = self._encode()
             self.dictionary = self._build_dictionary()
         else:
-            pass
+            self.src = self.source_text()
+            self.tree_root = self._build_tree()
+            self.dictionary = self._build_dictionary()
 
     
     class Node:
@@ -69,12 +71,6 @@ class HuffmanEncoding:
 
 
 
-
-
-        
-
-
-
     def source_text(self):
         """
         Returns the original source text.
@@ -99,14 +95,6 @@ class HuffmanEncoding:
                 current_node = self.root
         return decoded_text
 
-
-    def root(self):
-        """
-        Returns the root node of the Huffman tree.
-        Returns:
-            Node: The root node of the Huffman tree.
-        """
-        pass
     
     def _build_dictionary(self, node=None, prefix=''):
         """
@@ -131,4 +119,3 @@ class HuffmanEncoding:
         dictionary.update(self._build_dictionary(node.right, prefix + '1'))
         return dictionary
 
-src = 'apple'
