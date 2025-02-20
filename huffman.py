@@ -1,5 +1,5 @@
 from friendsbalt.acs import MinPQ
-
+    
 
 class HuffmanEncoding:
     def __init__(self, src=None, encoded_text=None, root=None):
@@ -12,7 +12,16 @@ class HuffmanEncoding:
             encoded_text (str, optional): The encoded text to be decoded.
             root (Node, optional): The root node of the Huffman tree for decoding.
         """
-        pass
+        if src is not None:
+            self.src = src
+            self.tree_root = self._build_tree()
+            self.encoded_text = self._encode()
+            self.dictionary = self._build_dictionary()
+        else:
+            self.src = self.source_text()
+            self.tree_root = self._build_tree()
+            self.dictionary = self._build_dictionary()
+
     
     class Node:
         def __init__(self, freq, char=None, left=None, right=None):
@@ -23,6 +32,34 @@ class HuffmanEncoding:
         
         def is_leaf(self):
             return self.char is not None
+        
+    def _build_tree(self):
+        frequency = {}
+        for i in self.src:
+            if i not in frequency:
+                frequency[i] = 1
+            else:
+                frequency[i] += 1
+
+        pq = MinPQ()
+        for letter in frequency.keys():
+            node = self.Node(frequency[letter], char = letter)
+            pq.insert(node.freq, node)
+
+        while pq.size() > 1:
+            left = pq.del_min()
+            right = pq.del_min()
+            merged = self.Node(frequency = left.frequency + right.frequency, left = left, right=right)
+            pq.insert(merged.frequency, merged)
+        self.root = pq.del_min()
+        return self.root
+
+    def _encode(self):
+        encoding = []
+        for char in self.src:
+            encoding.append(self.dictionary[char])
+        return ''.join(encoding)
+       
 
     def encoding(self):
         """
@@ -30,23 +67,34 @@ class HuffmanEncoding:
         Returns:
             str: The encoded text as a string of 0s and 1s.
         """
-        pass
+        return self.encoded_text
+
+
 
     def source_text(self):
         """
         Returns the original source text.
         Returns:
             str: The original source text.
+              """
         """
-        pass
+           '"""""''''
+           """"""""""
+              """
+              """
+              '''
+        decoded_text = ""
+        current_node = self.root
+        for i in self.encoded_text:
+            if i == "0":
+                current_node = current_node.left
+            else:
+                current_node = current_node.right
+            if current_node.is_leaf():
+                decoded_text += current_node.char
+                current_node = self.root
+        return decoded_text
 
-    def root(self):
-        """
-        Returns the root node of the Huffman tree.
-        Returns:
-            Node: The root node of the Huffman tree.
-        """
-        pass
     
     def _build_dictionary(self, node=None, prefix=''):
         """
@@ -70,3 +118,4 @@ class HuffmanEncoding:
         dictionary.update(self._build_dictionary(node.left, prefix + '0'))
         dictionary.update(self._build_dictionary(node.right, prefix + '1'))
         return dictionary
+
